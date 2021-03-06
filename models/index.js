@@ -7,11 +7,11 @@ const { foreign_key } = require('inflection');
 
 // Products belongsTo Category
 Product.belongsTo(Category, {
-foreignKey: 'category_id'
+  foreignKey: 'category_id'
 });
 
 // Categories have many Products
-Category.hasMany({Product,
+Category.hasMany(Product,{
   foreignKey: 'category_id'
 });
 
