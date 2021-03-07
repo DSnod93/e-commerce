@@ -7,9 +7,15 @@ router.get('/', (req, res) => {
   // find all tags
   // be sure to include its associated Product data
   Tag.findAll({
-    include: [Product]
+    attributes: ['id', 'tag_name'],
+    include: [
+      {
+        model: Product,
+        attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
+      }
+    ]
   })
-    .then(dbCategoryData => res.json(dbCategoryData))
+    .then(dbTagData => res.json(dbTagData))
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
@@ -23,9 +29,15 @@ router.get('/:id', (req, res) => {
     where: {
       id: req.params.id
     },
-    include: [Product]
+    attributes: ['id', 'tag_name'],
+    include: [
+      {
+        model: Product,
+        attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
+      }
+    ]
   })
-    .then(dbCategoryData => res.json(dbCategoryData))
+    .then(dbTagData => res.json(dbTagData))
     .catch(err => {
       res.status(404).json(err);
     })
@@ -34,9 +46,9 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   // create a new tag
   Tag.create({
-    category_name: req.body.category_name
+    tag_name: req.body.tag_name
   })
-    .then(dbCategoryData => res.json(dbCategoryData))
+    .then(dbTagData => res.json(dbTagData))
     .catch(err => {
       console.log(err);
       res.status(404).json(err);
@@ -51,7 +63,7 @@ router.put('/:id', (req, res) => {
     }
   })
     .then(dbCategoryData => {
-      res.json(dbCategoryData);
+      res.json(dbTagData);
     })
     .catch(err => {
       console.log(err);
@@ -66,8 +78,8 @@ router.delete('/:id', (req, res) => {
       id: req.params.id
     }
   })
-    .then(dbCategoryData => {
-      res.json(dbCategoryData);
+    .then(dbTagData => {
+      res.json(dbTagData);
     })
     .catch(err => {
       console.log(err);
